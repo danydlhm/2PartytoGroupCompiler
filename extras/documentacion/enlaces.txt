@@ -1,0 +1,3 @@
+https://pqc-wiki.fau.edu/w/Special:DatabaseHome
+https://csrc.nist.gov/projects/post-quantum-cryptography/round-2-submissions
+https://www.safecrypto.eu/pqclounge/round-2-candidates/
