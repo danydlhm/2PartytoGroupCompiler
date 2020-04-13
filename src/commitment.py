@@ -1,40 +1,23 @@
-from cca2python.ccapke import readparams, cskeygen
-from sympy.ntheory.generate import randprime, isprime
+from sympy.ntheory.generate import randprime
 from hashlib import sha3_512
 from random import SystemRandom
-import yaml
 
 
 class Commitment:
-    @classmethod
     def generate_parameters(cls, *args, **kwargs):
         raise NotImplementedError
 
-    @classmethod
-    def generate_commitment(cls, pk, random, m):
+    def generate_commitment(self, pk, random, m):
+        raise NotImplementedError
+
+    def check_correctness(self, c, pk, random, m):
+        raise NotImplementedError
+
+    def generate_random(self):
         raise NotImplementedError
 
 
 class CramerShoup(Commitment):
-    @classmethod
-    def generate_parameters(cls):
-        params = readparams("cca2python\\ddh-prg-params.1024")
-        kp = cskeygen(params)
-        pkfile = open('test_pk.txt', 'w')
-        yaml.safe_dump(kp[0], pkfile)
-        pkfile.close()
-
-        skfile = open('test_sk.txt', 'w')
-        yaml.safe_dump(kp[1], skfile)
-        skfile.close()
-        raise NotImplementedError
-
-    @classmethod
-    def generate_commitment(cls, pk, random, m):
-        raise NotImplementedError
-
-
-class CramerShoupCustom:
 
     def __init__(self):
         self.q = randprime(0, 30)
@@ -72,3 +55,12 @@ class CramerShoupCustom:
 
     def generate_random(self):
         return SystemRandom().randrange(0, self.q)
+
+    def check_correctness(self, c, pk, random, m):
+        try:
+            u_1, u_2, e, v = c
+            u_1_, u_2_, e_, v_ = self.generate_commitment(pk=pk, random=random, m=m)
+            verification = u_1 == u_1_ and u_2 == u_2_ and e == e_ and v == v_
+        except Exception as e:
+            verification = False
+        return verification
