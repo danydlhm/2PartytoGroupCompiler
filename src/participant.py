@@ -28,7 +28,6 @@ class Participant:
         self.x_i = self.key_next ^ self.key_before
         self.r_i = self.commitment.generate_random()
         self.pk_i = self.commitment.generate_parameters()
-        # TODO: Check if algorithm does not need the i parameter
         self.commitment_i = self.commitment.generate_commitment(pk=self.pk_i, random=self.r_i, m=self.x_i)
         # TODO: Broadcast M1
         return self.uid, self.commitment_i, self.pk_i
@@ -37,19 +36,20 @@ class Participant:
         return self.uid, self.x_i, self.r_i
 
     def round_2_2(self, x_list: list) -> bool:
-        # TODO: Broadcast acc_i and check correctness
         acc_i = False
-        self.x_list = x_list
-        self.k_list[self.i] = self.key_before
-        for j in range(1, len(self.pid_i) + 1):
-            aux_index = self.i - j
-            if aux_index >= 0:
-                x_list_aux = self.x_list[aux_index:self.i]
-            else:
-                x_list_aux = self.x_list[:self.i] + self.x_list[aux_index:]
-            x_list_aux = [self.key_before] + x_list_aux
-            k_i_j = reduce(lambda x, y: x ^ y, x_list_aux)
-            self.k_list[aux_index] = k_i_j
-        self.K = tuple(self.k_list + self.pid_i)
-        acc_i = True
+        # TODO: Check correctness
+        if reduce(lambda x,y: x^y, x_list) == 0:
+            self.x_list = x_list
+            self.k_list[self.i] = self.key_before
+            for j in range(1, len(self.pid_i) + 1):
+                aux_index = self.i - j
+                if aux_index >= 0:
+                    x_list_aux = self.x_list[aux_index:self.i]
+                else:
+                    x_list_aux = self.x_list[:self.i] + self.x_list[aux_index:]
+                x_list_aux = [self.key_before] + x_list_aux
+                k_i_j = reduce(lambda x, y: x ^ y, x_list_aux)
+                self.k_list[aux_index] = k_i_j
+            self.K = tuple(self.k_list + self.pid_i)
+            acc_i = True
         return acc_i

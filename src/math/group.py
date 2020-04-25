@@ -15,14 +15,20 @@ class ZqMultiplicativeGroup:
 
     def __pow__(self, power):
         """ Return pow(self, value). """
-        power = power % (self.q - 1)
-        if power == 0:
+        if isinstance(power, int):
+            aux_power = power
+        elif isinstance(power, ZqMultiplicativeGroup):
+            aux_power = power.a
+        else:
+            raise RuntimeError(f"Can't use {type(power)} class as power value")
+        aux_power = aux_power % (self.q - 1)
+        if aux_power == 0:
             return ZqMultiplicativeGroup(q=self.q, a=1)
-        if power == 1:
+        if aux_power == 1:
             return self
         else:
-            power_1 = power // 2
-            power_2 = power - power_1
+            power_1 = aux_power // 2
+            power_2 = aux_power - power_1
             return self ** power_1 * self ** power_2
 
     def __truediv__(self, other):
@@ -44,6 +50,16 @@ class ZqMultiplicativeGroup:
     @classmethod
     def random(cls, q):
         return ZqMultiplicativeGroup(q=q, a=SystemRandom().randrange(1, q))
+
+    @classmethod
+    def from_bytes(cls, a, q, *args, **kwargs):
+        return ZqMultiplicativeGroup(q=q, a=int.from_bytes(a, *args, **kwargs))
+
+    def to_bytes(self, *args, **kwargs):
+        return self.a.to_bytes(*args, **kwargs)
+
+    def bit_length(self):
+        return self.a.bit_length()
 
 
 class ZqQuadraticResidues(ZqMultiplicativeGroup):
