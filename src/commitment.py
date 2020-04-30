@@ -21,7 +21,7 @@ class Commitment:
 class CramerShoup(Commitment):
 
     def __init__(self):
-        self.q = randprime(0, 30)
+        self.q = randprime(0, 200)
 
     def generate_parameters(self):
         g_1 = ZqQuadraticResidues.random(self.q)
@@ -47,15 +47,16 @@ class CramerShoup(Commitment):
 
     def generate_commitment(self, pk, random, m):
         g_1, g_2, c, d, h, H = pk
-        u_1 = (g_1 ** random) % self.q
-        u_2 = (g_2 ** random) % self.q
-        e = (h ** random * m) % self.q
-        alpha = (H(u_1, u_2, e)) % self.q
-        v = (c**random * d**(random*alpha)) % self.q
+        m_aux = ZqQuadraticResidues(self.q, a=m)
+        u_1 = g_1 ** random
+        u_2 = g_2 ** random
+        e = h ** random * m_aux
+        alpha = H(u_1, u_2, e)
+        v = c**random * d**(random*alpha)
         return u_1, u_2, e, v
 
     def generate_random(self):
-        return SystemRandom().randrange(0, self.q)
+        return ZqQuadraticResidues.random(self.q)
 
     def check_correctness(self, c, pk, random, m):
         try:

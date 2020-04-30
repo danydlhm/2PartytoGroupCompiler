@@ -12,7 +12,7 @@ class AKE:
     def get_public_key(self):
         raise NotImplementedError
 
-    def common_secret(self, pk_peer):
+    def common_secret(self, pk_peer_1, pk_peer_2):
         raise NotImplementedError
 
 
@@ -33,7 +33,8 @@ class DHAKE(AKE):
         self.pk = self.sk.public_key()
         return self.pk
 
-    def common_secret(self, pk_peer):
-        shared_key = self.sk.exchange(pk_peer)
+    def common_secret(self, pk_peer_1, pk_peer_2):
+        shared_key_1 = int.from_bytes(self.sk.exchange(pk_peer_1), byteorder='big')
+        shared_key_2 = int.from_bytes(self.sk.exchange(pk_peer_2), byteorder='big')
         super().__init__()
-        return shared_key
+        return shared_key_1, shared_key_2

@@ -9,7 +9,7 @@ class ZqMultiplicativeGroup:
     def __mul__(self, other):
         """ Return self*value. """
         if type(self) == type(other) and self.q == other.q:
-            return ZqMultiplicativeGroup(a=self.a * other.a, q=self.q)
+            return self.__class__(a=self.a * other.a, q=self.q)
         else:
             RuntimeError("Can't multiply two elements of distinct groups")
 
@@ -23,8 +23,8 @@ class ZqMultiplicativeGroup:
             raise RuntimeError(f"Can't use {type(power)} class as power value")
         aux_power = aux_power % (self.q - 1)
         if aux_power == 0:
-            return ZqMultiplicativeGroup(q=self.q, a=1)
-        if aux_power == 1:
+            return self.__class__(q=self.q, a=1)
+        elif aux_power == 1:
             return self
         else:
             power_1 = aux_power // 2
@@ -34,9 +34,12 @@ class ZqMultiplicativeGroup:
     def __truediv__(self, other):
         """ Return self/value. """
         if type(self) == type(other) and self.q == other.q:
-            return ZqMultiplicativeGroup(a=self.a * other.a ** -1, q=self.q)
+            return self.__class__(a=self.a * other.a ** -1, q=self.q)
         else:
             RuntimeError("Can't divide two elements of distinct groups")
+
+    def __eq__(self, other):
+       return type(self) == type(other) and self.q == other.q and self.a == other.a
 
     def __str__(self):
         return f"{self.a} mod {self.q}"
@@ -53,7 +56,12 @@ class ZqMultiplicativeGroup:
 
     @classmethod
     def from_bytes(cls, a, q, *args, **kwargs):
-        return ZqMultiplicativeGroup(q=q, a=int.from_bytes(a, *args, **kwargs))
+        int_aux = int.from_bytes(a, *args, **kwargs)
+        if int_aux == 0:
+            element = cls(q=q)
+        else:
+            element = cls(q=q, a=int_aux)
+        return element
 
     def to_bytes(self, *args, **kwargs):
         return self.a.to_bytes(*args, **kwargs)
