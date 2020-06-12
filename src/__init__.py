@@ -1,10 +1,10 @@
-from logging import getLogger, StreamHandler, Formatter, DEBUG, INFO
+from logging import getLogger, StreamHandler, Formatter, DEBUG, INFO, ERROR
 
 
 def __init_logger():
     logger = getLogger('2PtGC')
     c_handler = StreamHandler()
-    logger.setLevel(DEBUG)
+    logger.setLevel(ERROR)
     c_handler.setLevel(DEBUG)
     c_format = Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     c_handler.setFormatter(c_format)

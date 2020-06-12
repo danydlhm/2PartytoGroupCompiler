@@ -57,11 +57,11 @@ class ZqMultiplicativeGroup:
     @classmethod
     def from_bytes(cls, a, q, *args, **kwargs):
         int_aux = int.from_bytes(a, *args, **kwargs)
-        if int_aux == 0:
-            element = cls(q=q)
-        else:
-            element = cls(q=q, a=int_aux)
-        return element
+        # if int_aux == 0:
+        #     element = cls(q=q)
+        # else:
+        #     element = cls(q=q, a=int_aux)
+        return cls(q=q, a=int_aux)
 
     def to_bytes(self, *args, **kwargs):
         return self.a.to_bytes(*args, **kwargs)

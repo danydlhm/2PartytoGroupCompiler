@@ -21,7 +21,7 @@ class Commitment:
 class CramerShoup(Commitment):
 
     def __init__(self):
-        self.q = randprime(0, 200)
+        self.q = randprime(2**10, 2**11)
 
     def generate_parameters(self):
         g_1 = ZqQuadraticResidues.random(self.q)

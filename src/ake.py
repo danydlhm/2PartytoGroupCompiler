@@ -38,3 +38,7 @@ class DHAKE(AKE):
         shared_key_2 = int.from_bytes(self.sk.exchange(pk_peer_2), byteorder='big')
         super().__init__()
         return shared_key_1, shared_key_2
+
+    @classmethod
+    def reset_object(cls):
+        cls.parameters = None

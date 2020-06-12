@@ -38,7 +38,7 @@ class Participant:
     def round_2_1(self) -> tuple:
         return self.uid, self.x_i, self.r_i
 
-    def round_2_2(self, m_1: list, m_2: list) -> bool:
+    def round_2_2(self, m_1: list, m_2: list) -> tuple:
         acc_i = False
         try:
             x_list = list()
@@ -65,3 +65,9 @@ class Participant:
             log.error(traceback.format_exc())
             log.error(e)
         return acc_i, self.K
+
+
+class ParticipantCommunication:
+    def __init__(self, channel):
+
+
