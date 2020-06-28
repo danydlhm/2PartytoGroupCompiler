@@ -4,7 +4,7 @@ from logging import getLogger, StreamHandler, Formatter, DEBUG, INFO, ERROR
 def __init_logger():
     logger = getLogger('2PtGC')
     c_handler = StreamHandler()
-    logger.setLevel(ERROR)
+    logger.setLevel(DEBUG)
     c_handler.setLevel(DEBUG)
     c_format = Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     c_handler.setFormatter(c_format)
