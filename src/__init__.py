@@ -1,4 +1,4 @@
-from logging import getLogger, StreamHandler, Formatter, DEBUG, INFO
+from logging import getLogger, StreamHandler, Formatter, DEBUG, INFO, ERROR
 
 
 def __init_logger():
