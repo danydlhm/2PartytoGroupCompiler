@@ -17,7 +17,7 @@ class Participant:
                 h.update(i.to_bytes((i.bit_length() + 7) // 8, byteorder='big'))
             return format(int.from_bytes(h.digest(), byteorder='big'), 'b')
 
-    def __init__(self, uid, commitment: Commitment, ake: AKE) -> None:
+    def __init__(self, uid, commitment: Commitment, ake: AKE = None) -> None:
         self.uid = uid
         self.i = None
         self.pid_i = None

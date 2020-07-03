@@ -1,0 +1,3 @@
+sympy==1.3
+cryptography==2.9.2
+dill==0.3.2
