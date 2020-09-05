@@ -10,11 +10,11 @@ The project has two types of execution, **basic** and **realistic**:
 
 * __Basic simulation__: executes all participants in a single process
 
-![basic simulation scheme](https://github.com/danydlhm/2PartytoGroupCompiler/tree/master/extras/documentacion/imagenes/Grafico_completo.png)
+![basic simulation scheme](https://raw.githubusercontent.com/danydlhm/2PartytoGroupCompiler/master/extras/documentacion/imagenes/Simulacion_basica.png)
 
 * __Realistic simulation__: the main process create a broadcast server and for each participant creates a process that simulate user's behavior.
 
-![basic simulation scheme](https://github.com/danydlhm/2PartytoGroupCompiler/tree/master/extras/documentacion/imagenes/Grafico_multiprocessing.png)
+![realistic simulation scheme](https://raw.githubusercontent.com/danydlhm/2PartytoGroupCompiler/master/extras/documentacion/imagenes/Simulacion_realista.png)
 
 ## Installation
 
