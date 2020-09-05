@@ -86,8 +86,3 @@ class Participant:
             log.error(traceback.format_exc())
             log.error(e)
         return acc_i, self.K, self.sk, self.sid
-
-
-class ParticipantCommunication:
-    def __init__(self):
-        pass
